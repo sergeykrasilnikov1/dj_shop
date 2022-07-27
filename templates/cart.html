@@ -1,0 +1,78 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<body class="Site">
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Корзина
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="index.html">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Корзина</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+      <div class="wrap">
+        {% for item in cart.products.all %}
+        <form action="{% url 'change_qty' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}" class="form Cart" method="POST">
+          {%csrf_token%}
+          <div class="Cart-product">
+            <div class="Cart-block Cart-block_row">
+              <div class="Cart-block Cart-block_pict"><a class="Cart-pict" href="#"><img class="Cart-img" src='/media/{{item.content_object.image}}' alt="card.jpg"/></a>
+              </div>
+              <div class="Cart-block Cart-block_info"><a class="Cart-title" href="#">{{item.content_object.title}}</a>
+                <div class="Cart-desc">{{item.content_object.description}}
+                </div>
+              </div>
+              <div class="Cart-block Cart-block_price">
+                <div class="Cart-price">{{ item.final_price }}$
+                </div>
+              </div>
+            </div>
+            <div class="Cart-block Cart-block_row">
+              <div class="Cart-block Cart-block_seller">
+                <!-- - var options = setOptions(items, ['value', 'selected', 'disabled']);-->
+
+              </div>
+              <div class="Cart-block Cart-block_amount">
+                <div class="Cart-amount">
+                  <div class="Amount">
+                    <button class="Amount-remove" type="button"></button>
+                    <input class="Amount-input form-input" name="qty"  type="text" value="{{ item.qty }}"/>
+                    <button class="Amount-add" type="button"></button>
+                  </div>
+                </div>
+                <input type="submit" class="btn btn_success" value="Изменить кол-во">
+              </div>
+              <div class="Cart-block Cart-block_delete"><a class="Cart-delete" href="{% url 'delete_from_cart' ct_model=item.content_object.get_model_name slug=item.content_object.slug %}"><img src='{% static "assets/img/icons/card/delete.svg" %}' alt="delete.svg"/></a>
+              </div>
+            </div>
+          </div>
+        </form>
+          {% endfor %}
+          <div class="Cart-total">
+            <div class="Cart-block Cart-block_total">
+              <strong class="Cart-title">Итого:
+              </strong><span class="Cart-price">{{ cart.final_price }}$</span>
+            </div>
+            <div class="Cart-block"><a class="btn btn_success btn_lg" href="{% url 'checkout' %}">Оформить заказ</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</body></html>

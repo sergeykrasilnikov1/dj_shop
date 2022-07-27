@@ -1,0 +1,42 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<body class="Site">
+ <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+<form  method="post" action="{% url 'repeat_payment' pk=id %}">
+    {%csrf_token%}
+    <header class="Section-header Section-header_sm">
+    <h2 class="Section-title">Способ оплаты
+    </h2>
+    </header>
+    <div class="form-group">
+    <div>
+      <label class="toggle">
+        <input type="radio" name="method" value="Онлайн картой" checked="checked"/><span class="toggle-box"></span><span class="toggle-text">Онлайн картой</span>
+      </label>
+    </div>
+    <div>
+      <label class="toggle">
+        <input type="radio" name="method" value="Онлайн с чужого счета"/><span class="toggle-box"></span><span class="toggle-text">Онлайн со случайного чужого счета</span>
+      </label>
+    </div>
+    </div>
+    <div class="Order-footer">
+    <button type="submit" class="btn btn_success">Оплатить</button>
+    </div>
+</form>
+      </div>
+    </div>
+ </div>
+</body>
+{% endblock content %}
+</html>

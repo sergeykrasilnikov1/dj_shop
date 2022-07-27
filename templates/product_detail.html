@@ -1,0 +1,156 @@
+{% extends "header-footer.html" %}
+{% load specifications %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<body class="Site">
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Megano Product
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="index.html">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Product</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section">
+      <div class="wrap">
+        <div class="Product">
+          <div class="ProductCard">
+            <div class="ProductCard-look">
+              <div class="ProductCard-photo">
+                <img src='/media/{{product.image}}' alt="bigGoods.png"/>
+              </div>
+              <div class="ProductCard-picts">
+                {% for image in product.images.all%}
+                <a class="ProductCard-pict ProductCard-pict_ACTIVE" href="/media/{{image.image}}"><img src="/media/{{image.image}}" alt="bigGoods.png"/></a>
+
+                {% endfor %}
+              </div>
+            </div>
+            <div class="ProductCard-desc">
+              <div class="ProductCard-header">
+                <h2 class="ProductCard-title">{{product.title}}
+                </h2>
+                <div class="ProductCard-info">
+                  <div class="ProductCard-cost">
+                    <div class="ProductCard-price">${{product.price|floatformat:2}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ProductCard-text">
+              {{ product|product_spec_short }}
+                <p><a href="#spec">Все характеристики</a></p>
+              </div>
+              <div class="ProductCard-cart">
+                <div class="ProductCard-cartElement ProductCard-cartElement_amount">
+                  <div class="Amount Amount_product">
+                    <button class="Amount-remove" type="button">
+                    </button>
+                    <input class="Amount-input form-input" name="amount" type="text" value="1"/>
+                    <button class="Amount-add" type="button">
+                    </button>
+                  </div>
+                </div>
+                <div class="ProductCard-cartElement"><a class="btn btn_primary" href="{% url 'add_to_cart' ct_model=ct_model slug=product.slug %}"><img class="btn-icon" src='{% static "assets/img/icons/card/cart_white.svg" %}' alt="cart_white.svg"/><span class="btn-content">Add To Cart</span></a>
+                </div>
+              </div>
+              <div class="ProductCard-footer">
+              </div>
+            </div>
+          </div>
+          <div class="Tabs Tabs_default">
+            <div class="Tabs-links"><a class="Tabs-link_ACTIVE Tabs-link" href="#description"><span>Описание</span></a><a class="Tabs-link" href="#reviews"><span>Reviews ({{product.reviews.count}})</span></a>
+            </div>
+            <div class="Tabs-wrap">
+              <div class="Tabs-block" id="description">
+                <h2>{{product.title}}
+                </h2>
+                <p>{{product.description}}</p>
+
+                <div class="table">
+                  <table>
+                    <tr>
+                      <th id="spec">Характеристика
+                      </th>
+                      <th>Значение
+                      </th>
+                      {{ product|product_spec }}
+                  </table>
+                </div>
+              </div>
+              <div class="Tabs-block" id="reviews">
+                <header class="Section-header">
+                  <h3 class="Section-title">{{product.reviews.count}} Reviews
+                  </h3>
+                </header>
+                <div class="Comments">
+                  {%for i in product.reviews.all%}
+                  <div class="Comment">
+                    <div class="Comment-column Comment-column_pict">
+                      <div class="Comment-avatar">
+                        <img src='/media/{{request.user.profile.avatar}}'/>
+                      </div>
+                    </div>
+                    <div class="Comment-column">
+                      <header class="Comment-header">
+                        <div>
+                          <strong class="Comment-title">{{i.user.user.username}}
+                          </strong><span class="Comment-date"> {{i.created}}</span>
+                        </div>
+                      </header>
+                      <div class="Comment-content"> {{i.text}}
+                      </div>
+                    </div>
+                  </div>
+                  {%endfor%}
+                </div>
+                <header class="Section-header Section-header_product">
+                  <h3 class="Section-title">Add Review
+                  </h3>
+                </header>
+                <div class="Tabs-addComment">
+                  <form class="form" action="{% url 'add_review' ct_model=ct_model slug=product.slug %}" method="post">
+                    {%if  request.user.is_authenticated%}
+                    {%csrf_token%}
+                    <div class="form-group">
+
+                    </div>
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="row-block">
+                          <textarea class="form-textarea" name="text" id="id_text" placeholder="Review"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <button class="btn btn_muted" type="submit">Submit Review
+                      </button>
+                    </div>
+                    {% else %}
+                    <p>Чтобы оставить отзыв, нужно <a href="{% url 'profile' %}">зарегистрироваться</a></p>
+                     {%endif%}
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</body></html>

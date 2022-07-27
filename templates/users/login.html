@@ -1,0 +1,57 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<body>
+<div class="wrap">
+  <h1>Страница входа</h1>
+    {% if messages %}
+            {% for message in messages %}
+                <strong style="font-size: 20px; text-align:center; margin: 20px;" class="Profile-success">{{ message }}</strong>
+            {% endfor %}
+        {% endif %}
+ <form class="form Profile-form"  method="post">
+              {%csrf_token%}
+              <div class="row">
+                <div class="row-block">
+                  <div class="form-group">
+                    <label class="form-label" for="id_username">E-mail
+                    </label>
+                    <input class="form-input" id="id_username" name="username" type="text" maxlength="254" value="" data-validate="require"/>
+                    {%if email%}
+                    <div class="form-error">Пользователь с таким адресом уже существует</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_password">Пароль
+                    </label>
+                    <input class="form-input" id="id_password" required name="password" autocomplete="new-password" type="password"/>
+                  </div>
+                  <div class="form-group">
+                    <div class="Profile-btn">
+                        {%if flag %}
+                        <input type="hidden" name="next" value="/orders/order">
+                        {%else%}
+                        <input type="hidden" name="next" value="/">
+                        {%endif%}
+                      <button class="btn btn_success" type="submit">войти
+                      </button>
+                    </div>
+<!--                    <div class="Profile-success">Профиль успешно сохранен-->
+<!--                    </div>-->
+                  </div>
+                </div>
+              </div>
+            </form>
+    <p style="font-size:22px">Забыли <a href="{% url 'restore_password' %}"> пароль?</a></p>
+  <p style="font-size:22px">Если вы не зарегистрированы, то нужно <a href="{% url 'register' %}"> зарегистрироваться</a></p>
+</div>
+</body>
+</html>
+{% endblock content %}

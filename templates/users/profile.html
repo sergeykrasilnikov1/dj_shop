@@ -1,0 +1,132 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}<{% endblock header %}
+{% block footer %}<{% endblock footer %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='{% static "assets/js/jquery-input-mask-phone-number.js" %}'></script>
+<script>
+
+            $(document).ready(function($) {
+                $('#id_tel').usPhoneFormat({
+                    format: 'xx(xxx) xxx-xxxx',
+                });
+            });
+
+        </script>
+<body class="Site">
+  <div class="Middle Middle_top">
+    <div class="Middle-top">
+      <div class="wrap">
+        <div class="Middle-header">
+          <h1 class="Middle-title">Профиль
+          </h1>
+          <ul class="breadcrumbs Middle-breadcrumbs">
+            <li class="breadcrumbs-item"><a href="index.html">home</a>
+            </li>
+            <li class="breadcrumbs-item breadcrumbs-item_current"><span>Профиль</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnLeft">
+      <div class="wrap">
+        <div class="Section-column">
+          <div class="Section-columnSection">
+            <header class="Section-header">
+              <strong class="Section-title">Навигация
+              </strong>
+            </header>
+            <div class="Section-columnContent">
+              <div class="NavigateProfile">
+                <ul class="menu menu_vt">
+                  <li class="menu-item"><a class="menu-link" href="../../users/account">Личный кабинет</a>
+                  </li>
+                  <li class="menu-item_ACTIVE menu-item"><a class="menu-link" href="../../users/profile">Профиль</a>
+                  </li>
+                  <li class="menu-item"><a class="menu-link" href="../../users/history_order">История заказов</a>
+                  </li>
+
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Section-content">
+          <div class="Profile">
+            <form class="form Profile-form" action="#" enctype="multipart/form-data" method="post">
+              {%csrf_token%}
+               <input style="display:none" class="form-input" id="id_username" name="username" maxlength="150" type="text" value="{{request.user.username}}" data-validate="require"/>
+              <div class="row">
+                <div class="row-block">
+                  <div class="form-group">
+                    <label class="form-label" for="avatar">Аватар
+                    </label>
+                    <div class="Profile-avatar Profile-avatar_noimg">
+                      <div class="Profile-img"><img src='{% static "assets/img/#.png" %}' alt="#.png"/>
+                      </div>
+                      <label class="Profile-fileLabel" for="avatar">Выберите аватар
+                      </label>
+                      <input class="Profile-file form-input" id="avatar" name="avatar" type="file" data-validate="onlyImgAvatar"/>
+                    </div>
+                       {%if avatar_flag%}
+                    <div class="form-error">Размер изображения не должен превышать 3Мб</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_first_name">ФИО
+                    </label>
+                    <input class="form-input" id="id_first_name" name="first_name" maxlength="150" type="text" value="{{request.user.first_name}}"/>
+                  </div>
+                </div>
+                <div class="row-block">
+                  <div class="form-group">
+                    <label class="form-label" for="id_tel">Телефон
+                    </label>
+                    <input class="form-input" id="id_tel" name="tel" value="+7{{cart.owner.tel}}" type="text" maxlength="14"/>
+                     {%if phone%}
+                    <div class="form-error">Пользователь с таким телефоном уже существует</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_mail">E-mail
+                    </label>
+                    <input class="form-input" id="id_mail" name="email" type="text" maxlength="254" value="{{request.user.email}}" />
+                     {%if email%}
+                    <div class="form-error">Пользователь с таким адресом уже существует</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_password1">Пароль
+                    </label>
+                    <input class="form-input" id="id_password1"   name="password1" autocomplete="new-password" type="password" placeholder="Тут можно изменить пароль"/>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_password2">Подтверждение пароля
+                    </label>
+                    <input class="form-input" id="id_password2" name="password2"   type="password" placeholder="Введите пароль повторно"/>
+                  </div>
+                  <div class="form-group">
+                    <div class="Profile-btn">
+                      <button class="btn btn_success" type="submit">Сохранить
+                      </button>
+                    </div>
+                    {%if flag%}
+                    <div class="Profile-success">Профиль успешно сохранен</div>
+                    {%endif%}
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</body></html>

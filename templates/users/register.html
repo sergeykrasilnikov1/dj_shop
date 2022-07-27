@@ -1,0 +1,79 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src='{% static "assets/js/jquery-input-mask-phone-number.js" %}'></script>
+<script>
+
+            $(document).ready(function($) {
+                $('#id_tel').usPhoneFormat({
+                    format: 'xx(xxx) xxx-xxxx',
+                });
+            });
+
+        </script>
+<body>
+<div class="wrap">
+  <h1>Страница регистрации</h1>
+          {% if messages %}
+            {% for message in messages %}
+                <strong class="form-error">{{ message }}</strong>
+            {% endfor %}
+        {% endif %}
+ <form class="form Profile-form"  method="post">
+              {%csrf_token%}
+              <div class="row">
+                <input style="display:none" class="form-input" id="id_username" name="username" maxlength="150" type="text" value="user{{request.user.id}}" data-validate="require"/>
+                <div class="row-block">
+                  <div class="form-group">
+                    <label class="form-label" for="id_first_name">ФИО
+                    </label>
+                    <input class="form-input" id="id_first_name" name="first_name" maxlength="150" type="text" value="" data-validate="require"/>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_tel">Телефон
+                    </label>
+                    <input class="form-input" required id="id_tel" name="tel" value="+7" type="text" maxlength="14"/>
+                    {%if phone%}
+                    <div class="form-error">Пользователь с таким телефоном уже существует</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_mail">E-mail
+                    </label>
+                    <input class="form-input" id="id_mail" name="email" type="text" maxlength="254" value="" data-validate="require"/>
+                    {%if email%}
+                    <div class="form-error">Пользователь с таким адресом уже существует</div>
+                    {%endif%}
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_password1">Пароль
+                    </label>
+                    <input class="form-input" id="id_password1" required name="password1" autocomplete="new-password" type="password"/>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="id_password2">Подтверждение пароля
+                    </label>
+                    <input class="form-input" id="id_password2" name="password2" required type="password" placeholder="Введите пароль повторно"/>
+                  </div>
+                  <div class="form-group">
+                    <div class="Profile-btn">
+                      <button class="btn btn_success" type="submit">Зарегистрироваться
+                      </button>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+</div>
+</body>
+</html>
+{% endblock content %}

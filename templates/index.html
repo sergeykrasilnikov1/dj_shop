@@ -1,0 +1,181 @@
+{% extends "header-footer.html" %}
+{% load static%}
+<!--END-->
+<!--END--><!DOCTYPE html><!--[if IE 7]>
+<html class="ie11" lang="ru">
+<![endif]-->
+<!--[if gt IE 11]><!--> <html lang="ru"> <!--<![endif]-->
+{% block header %}{% endblock header %}
+{% block footer %}{% endblock footer %}
+{% block content %}
+<body class="Site">
+  <div class="Middle">
+    <div class="Section">
+      <div class="wrap">
+        <div class="BannersHome"><a class="BannersHomeBlock" href="{% url 'category_detail' slug='smartphones' sort='price' %}">
+            <div class="BannersHomeBlock-row">
+              <div class="BannersHomeBlock-block">
+                <strong class="BannersHomeBlock-title">Smartphones
+                </strong>
+                <div class="BannersHomeBlock-content">from&#32;<span class="BannersHomeBlock-price">$49.00</span>
+                </div>
+              </div>
+              <div class="BannersHomeBlock-block">
+                <div class="BannersHomeBlock-img"><img src='{% static "assets/img/content/home/600x600.png"%}' alt="videoca.png"/>
+                </div>
+              </div>
+            </div></a><a class="BannersHomeBlock"href="{% url 'category_detail' slug='headphones' sort='price' %}">
+            <div class="BannersHomeBlock-row">
+              <div class="BannersHomeBlock-block">
+                <strong class="BannersHomeBlock-title">HeadPhones
+                </strong>
+                <div class="BannersHomeBlock-content">from&#32;<span class="BannersHomeBlock-price">$20.00</span>
+                </div>
+              </div>
+              <div class="BannersHomeBlock-block">
+                <div class="BannersHomeBlock-img"><img src='{% static "assets/img/content/home/i.png"%}' alt="videoca.png"/>
+                </div>
+              </div>
+            </div></a><a class="BannersHomeBlock" href="{% url 'category_detail' slug='notebooks' sort='price' %}">
+            <div class="BannersHomeBlock-row">
+              <div class="BannersHomeBlock-block">
+                <strong class="BannersHomeBlock-title">Notebooks
+                </strong>
+                <div class="BannersHomeBlock-content">from&#32;<span class="BannersHomeBlock-price">$259.00</span>
+                </div>
+              </div>
+              <div class="BannersHomeBlock-block">
+                <div class="BannersHomeBlock-img"><img src='{% static "assets/img/content/home/card.jpg"%}' alt="videoca.png"/>
+                </div>
+              </div>
+            </div></a>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnDesktop"  >
+      <div class="wrap">
+        <div class="Section-content">
+          <header class="Section-header">
+            <h2 class="Section-title">Popular Products
+            </h2>
+          </header>
+          <div class="Cards">
+            {%for i in products%}
+            <div class="Card"><a class="Card-picture" href="{{ i.get_absolute_url }}"><img src='{{i.image.url}}' alt="card.jpg"/></a>
+              <div class="Card-content">
+                <strong class="Card-title"><a href="{{ i.get_absolute_url }}">{{i.title}}</a>
+                </strong>
+                <div class="Card-description">
+                  <div class="Card-cost"><span class="Card-price">${{i.price|floatformat:2}}</span>
+                  </div>
+                  <div class="Card-category">{{i.category}}
+                  </div>
+                    <div class="Card-hover" >
+                    <a href="{% url 'add_to_cart' ct_model=i.get_model_name slug=i.slug %}">
+                    <button class="Card-btn" type="submit">
+                      <img src='{% static "assets/img/icons/card/cart.svg"%}' alt="cart.svg"/>
+                    </button></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%endfor%}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="Section Section_column Section_columnRight">
+      <div class="wrap">
+        <div class="Section-column">
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+              <div class="media-image"><img src='{% static "assets/img/icons/advantages/shipping.svg"%}' alt="shipping.svg"/>
+              </div>
+              <div class="media-content">
+                <strong class="media-title">Shipping & Returns
+                </strong>
+                <p class="media-text">World wide shipping
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+              <div class="media-image"><img src='{% static "assets/img/icons/advantages/moneyBack.svg"%}' alt="moneyBack.svg"/>
+              </div>
+              <div class="media-content">
+                <strong class="media-title">Money Back
+                </strong>
+                <p class="media-text">Guaranted payments
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+              <div class="media-image"><img src='{% static "assets/img/icons/advantages/support.svg"%}' alt="support.svg"/>
+              </div>
+              <div class="media-content">
+                <strong class="media-title">Support Policy
+                </strong>
+                <p class="media-text">Fast support team
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="Section-columnSection Section-columnSection_mark">
+            <div class="media media_advantage">
+              <div class="media-image"><img src='{% static "assets/img/icons/advantages/quality.svg"%}' alt="quality.svg"/>
+              </div>
+              <div class="media-content">
+                <strong class="media-title">Quality Guarantee
+                </strong>
+                <p class="media-text">Best guaranted items
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Section-content">
+          <div class="Slider Slider_carousel">
+            <header class="Section-header Section-header_close">
+              <h2 class="Section-title">Limited edition
+              </h2>
+              <div class="Section-control">
+                <div class="Slider-navigate">
+                </div>
+              </div>
+            </header>
+            <div class="Slider-box Cards">
+              {%for i in limit_products%}
+              <div class="Slider-item">
+                <div class="Slider-content">
+                  <div class="Card"><a class="Card-picture" href="{{ i.get_absolute_url }}"><img src='/media/{{i.images.first.image}}' alt="card.jpg"/></a>
+                    <div class="Card-content">
+                      <strong class="Card-title"><a href="{{ i.get_absolute_url }}">{{i.title}}</a>
+                      </strong>
+                      <div class="Card-description">
+                        <div class="Card-cost"><span class="Card-price">${{i.price|floatformat:2}}</span>
+                        </div>
+                        <div class="Card-category">{{i.category}}
+                        </div>
+                       <div class="Card-hover">
+                         <a href="{% url 'add_to_cart' ct_model=i.get_model_name slug=i.slug %}">
+                    <button class="Card-btn" type="submit">
+                      <img src='{% static "assets/img/icons/card/cart.svg"%}' alt="cart.svg"/>
+                    </button></a>
+                  </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {%endfor%}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}
+</body></html>
