@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.http import HttpResponseRedirect
 from django.views.generic import DetailView, View, ListView
 from .models import Notebook, Smartphone, Category, LatestProducts, Customer,\
-    CartProduct, Review, Order, Desktop, Headphones, Catalog
+    CartProduct, Review, Order, Desktop, Headphones, Catalog, TV, Washer, Fridge, SmartWatch
 from .mixins import CategoryDetailMixin, CartMixin
 from .forms import OrderForm, RestorePasswordForm, UserRegistrationForm, UserUpdateForm, AuthForm
 from .utils import recalc_cart
@@ -22,7 +22,7 @@ class BaseView(CartMixin, View):
 
     def get(self, request):
         products, limit_products = LatestProducts.objects.get_products_for_main_page(
-            'notebook', 'smartphone', 'desktop', 'headphones'
+            'notebook', 'smartphone', 'desktop', 'headphones', 'tv', 'fridge', 'washer', 'smartwatch'
         )
         context = self.get_context()
         context['limit_products'] = limit_products
@@ -37,7 +37,11 @@ class ProductDetailView(CartMixin, CategoryDetailMixin, DetailView):
         'notebook': Notebook,
         'smartphone': Smartphone,
         'desktop': Desktop,
-        'headphones': Headphones
+        'headphones': Headphones,
+        'tv': TV,
+        'smartwatch': SmartWatch,
+        'fridge': Fridge,
+        'washer': Washer,
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -67,7 +71,7 @@ class CatalogView(CartMixin, ListView):
         sort = self.kwargs.get('sort')
         query = self.request.GET.get('query')
         products = Catalog.objects.get_products_for_catalog(
-            'notebook', 'smartphone', 'desktop', 'headphones', query=query
+            'notebook', 'smartphone', 'desktop', 'headphones', 'fridge', 'smartwatch', 'tv', 'washer', query=query
         )
         context = super().get_context_data(**kwargs)
         context.update(self.get_context())
@@ -131,7 +135,7 @@ class SearchView(CartMixin, ListView):
     def get_context_data(self, **kwargs):
         query = self.request.GET.get('query')
         products = Catalog.objects.get_products_for_catalog(
-             'notebook', 'smartphone', 'desktop', 'headphones', query=query
+             'notebook', 'smartphone', 'desktop', 'headphones', 'fridge', 'smartwatch', 'tv', 'washer', query=query
         )
         context = super().get_context_data(**kwargs)
         context.update(self.get_context())
@@ -240,7 +244,6 @@ class DeleteFromCartView(CartMixin, View):
         self.cart.products.remove(cart_product)
         cart_product.delete()
         recalc_cart(self.cart)
-        messages.add_message(request, messages.INFO, "Товар успешно удален")
         return HttpResponseRedirect('/cart/')
 
 
@@ -609,7 +612,6 @@ class HistoryOrders(CartMixin, View):
                           context)
 
 
-
 # from mainapp.models import *
 # import random
 #
@@ -715,3 +717,102 @@ class HistoryOrders(CartMixin, View):
 #     HeadphonesGallery.objects.create(headphones=b, image=image)
 #     HeadphonesGallery.objects.create(headphones=b, image=image)
 #     HeadphonesGallery.objects.create(headphones=b, image=image)
+
+
+# from mainapp.models import *
+# import random
+# category = Category.objects.get(slug="tvs")
+# a = TV.objects.all().first()
+# image=a.image
+# for i in range(2,100):
+#
+#     b = TV.objects.create(
+#     category=category,
+#     title = f'TV{i}',
+#     slug = f'TV{i}',
+#     description = a.description,
+#     image=image,
+#     price = random.randint(20,1000),
+#     weight = a.weight,
+#     color = a.color,
+#     energy_consumption = a.energy_consumption,
+#     power = a.power,
+#     display = a.display,
+#     )
+#     TVGallery.objects.create(tv=b, image=image)
+#     TVGallery.objects.create(tv=b, image=image)
+#     TVGallery.objects.create(tv=b, image=image)
+
+
+# from mainapp.models import *
+# import random
+# category = Category.objects.get(slug="fridges")
+# a = Fridge.objects.all().first()
+# image=a.image
+# for i in range(2,100):
+#
+#     b = Fridge.objects.create(
+#     category=category,
+#     title = f'Fridge{i}',
+#     slug = f'Fridge{i}',
+#     description = a.description,
+#     image=image,
+#     price = random.randint(20,1000),
+#     weight = a.weight,
+#     color = a.color,
+#     energy_consumption = a.energy_consumption,
+#     power = a.power,
+#     refrigerant = a.refrigerant
+#     )
+#     FridgeGallery.objects.create(fridge=b, image=image)
+#     FridgeGallery.objects.create(fridge=b, image=image)
+#     FridgeGallery.objects.create(fridge=b, image=image)
+
+# from mainapp.models import *
+# import random
+# category = Category.objects.get(slug="washers")
+# a = Washer.objects.all().first()
+# image=a.image
+# for i in range(2,100):
+#
+#     b = Washer.objects.create(
+#     category=category,
+#     title = f'Washer{i}',
+#     slug = f'Washer{i}',
+#     description = a.description,
+#     image=image,
+#     price = random.randint(20,1000),
+#     weight = a.weight,
+#     color = a.color,
+#     energy_consumption = a.energy_consumption,
+#     power = a.power,
+#     noise_level = a.noise_level,
+#     )
+#     WasherGallery.objects.create(washer=b, image=image)
+#     WasherGallery.objects.create(washer=b, image=image)
+#     WasherGallery.objects.create(washer=b, image=image)
+
+# from mainapp.models import *
+# import random
+# category = Category.objects.get(slug="smartwatches")
+# a = SmartWatch.objects.all().first()
+# image=a.image
+# for i in range(2,100):
+#
+#     b = SmartWatch.objects.create(
+#     category=category,
+#     title = f'SmartWatch{i}',
+#     slug = f'SmartWatch{i}',
+#     description = a.description,
+#     image=image,
+#     price = random.randint(20,1000),
+#     weight = a.weight,
+#     color = a.color,
+#     energy_consumption = a.energy_consumption,
+#     power = a.power,
+#     display = a.display,
+#     time_without_charge = a.time_without_charge
+#     )
+#     SmartWatchGallery.objects.create(smartwatch=b, image=image)
+#     SmartWatchGallery.objects.create(smartwatch=b, image=image)
+#     SmartWatchGallery.objects.create(smartwatch=b, image=image)

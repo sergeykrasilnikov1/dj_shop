@@ -1,6 +1,6 @@
 from django.views.generic.detail import SingleObjectMixin
 from django.views.generic import View
-from .models import Category, Cart, Customer, Notebook, Smartphone, Desktop, Headphones
+from .models import Category, Cart, Customer, Notebook, Smartphone, Desktop, Headphones, Fridge, SmartWatch, TV, Washer
 
 
 class CategoryDetailMixin(SingleObjectMixin):
@@ -9,7 +9,12 @@ class CategoryDetailMixin(SingleObjectMixin):
         'notebooks': Notebook,
         'smartphones': Smartphone,
         'desktops': Desktop,
-        'headphones': Headphones
+        'headphones': Headphones,
+        'fridges': Fridge,
+        'tvs': TV,
+        'washers': Washer,
+        'smartwatches': SmartWatch,
+
     }
 
     def get_context_data(self, **kwargs):
@@ -41,13 +46,12 @@ class CartMixin(View):
 
     def get_context(self):
         categories = Category.objects.get_categories_for_left_sidebar()
-        computers = categories[:3]
-        computers.pop(1)
-        mobiles = categories[1:]
-        mobiles.pop(1)
         context = dict()
-        context['computers'] = computers
-        context['mobiles'] = mobiles
+        context['computers'] = list(filter(lambda x: x['name'] == 'Персональные компьютеры' or x['name'] == 'Ноутбуки', categories))
+        context['mobiles'] = list(filter(lambda x: x['name'] == 'Наушники' or x['name'] == 'Смартфоны', categories))
+        context['appliances'] = list(filter(lambda x: x['name'] == 'Холодильники' or x['name'] == 'Стиральные машины', categories))
+        context['tvs'] = list(filter(lambda x: x['name'] == 'Телевизоры', categories))
+        context['smartwatches'] = list(filter(lambda x: x['name'] == 'Умные часы', categories))
         return context
 
 

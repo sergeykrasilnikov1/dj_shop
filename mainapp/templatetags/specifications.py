@@ -49,7 +49,36 @@ PRODUCT_SPEC = {
         'Частота максимальная': 'max_freq',
         'микрофон': 'microphone',
         'Цвет': 'color'
-    }
+    },
+    'fridge': {
+        'Вес': 'weight',
+        'Мощность': 'power',
+        'Энергопотребление': 'energy_consumption',
+        'Хладагент': 'refrigerant',
+        'Цвет': 'color'
+    },
+    'washer': {
+            'Вес': 'weight',
+            'Мощность': 'power',
+            'Энергопотребление': 'energy_consumption',
+            'Уровень шума': 'noise_level',
+            'Цвет': 'color'
+        },
+    'tv': {
+            'Вес': 'weight',
+            'Мощность': 'power',
+            'Энергопотребление': 'energy_consumption',
+            'Экран': 'display',
+            'Цвет': 'color'
+        },
+    'smartwatch': {
+            'Вес': 'weight',
+            'Мощность': 'power',
+            'Энергопотребление': 'energy_consumption',
+            'Время работы аккумулятора': 'time_without_charge',
+            'Цвет': 'color',
+            'Экран': 'display',
+    },
 }
 
 

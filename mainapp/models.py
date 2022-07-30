@@ -68,13 +68,17 @@ class CategoryManager(models.Manager):
         'Смартфоны': 'smartphone__count',
         'Персональные компьютеры': 'desktop__count',
         'Наушники': 'headphones__count',
+        'Холодильники': 'fridge__count',
+        'Стиральные машины': 'washer__count',
+        'Умные часы': 'smartwatch__count',
+        'Телевизоры': 'tv__count'
     }
 
     def get_queryset(self):
         return super().get_queryset()
 
     def get_categories_for_left_sidebar(self):
-        models = get_models_for_count('notebook', 'smartphone', 'desktop', 'headphones')
+        models = get_models_for_count('notebook', 'smartphone', 'desktop', 'headphones', 'fridge', 'smartwatch', 'tv', 'washer')
         qs = list(self.get_queryset().annotate(*models))
         data = [
             dict(name=c.name, url=c.get_absolute_url(), count=getattr(c, self.CATEGORY_NAME_COUNT_NAME[c.name]))
@@ -212,6 +216,87 @@ class Headphones(Product):
 
 class HeadphonesGallery(models.Model):
     headphones = models.ForeignKey(Headphones, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Изображение')
+
+
+class Fridge(Product):
+
+    weight = models.CharField(max_length=255, verbose_name='Вес')
+    color = models.CharField(max_length=255, verbose_name='Цвет')
+    energy_consumption = models.CharField(max_length=255, verbose_name='Энергопотребление')
+    power = models.CharField(max_length=255, verbose_name='Мощность')
+    refrigerant = models.CharField(max_length=255, verbose_name='Хладагент')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class FridgeGallery(models.Model):
+    fridge = models.ForeignKey(Fridge, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Изображение')
+
+
+class Washer(Product):
+
+    weight = models.CharField(max_length=255, verbose_name='Вес')
+    color = models.CharField(max_length=255, verbose_name='Цвет')
+    energy_consumption = models.CharField(max_length=255, verbose_name='Энергопотребление')
+    power = models.CharField(max_length=255, verbose_name='Мощность')
+    noise_level = models.CharField(max_length=255, verbose_name='Уровень шума')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class WasherGallery(models.Model):
+    washer = models.ForeignKey(Washer, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Изображение')
+
+
+class TV(Product):
+
+    weight = models.CharField(max_length=255, verbose_name='Вес')
+    color = models.CharField(max_length=255, verbose_name='Цвет')
+    energy_consumption = models.CharField(max_length=255, verbose_name='Энергопотребление')
+    power = models.CharField(max_length=255, verbose_name='Мощность')
+    display = models.CharField(max_length=255, verbose_name='Экран')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class TVGallery(models.Model):
+    tv = models.ForeignKey(TV, related_name='images', on_delete=models.CASCADE)
+    image = models.ImageField(verbose_name='Изображение')
+
+
+class SmartWatch(Product):
+
+    weight = models.CharField(max_length=255, verbose_name='Вес')
+    color = models.CharField(max_length=255, verbose_name='Цвет')
+    energy_consumption = models.CharField(max_length=255, verbose_name='Энергопотребление')
+    power = models.CharField(max_length=255, verbose_name='Мощность')
+    display = models.CharField(max_length=255, verbose_name='Экран')
+    time_without_charge = models.CharField(max_length=255, verbose_name='Время работы аккумулятора')
+
+    def __str__(self):
+        return "{} : {}".format(self.category.name, self.title)
+
+    def get_absolute_url(self):
+        return get_product_url(self, 'product_detail')
+
+
+class SmartWatchGallery(models.Model):
+    smartwatch = models.ForeignKey(SmartWatch, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(verbose_name='Изображение')
 
 

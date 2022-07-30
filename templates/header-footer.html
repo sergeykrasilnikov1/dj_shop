@@ -127,7 +127,30 @@
                   {%endfor%}
                 </div>
               </div>
-            </div>
+              <div class="CategoriesButton-link"><a href="#">
+                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/7.svg"%}' alt="3.svg"/>
+                  </div><span class="CategoriesButton-text">Бытовая техника</span></a><a class="CategoriesButton-arrow" href="#"></a>
+                <div class="CategoriesButton-submenu">
+                   {% for item in appliances %}
+                  <a class="CategoriesButton-link" href="{{ item.url }}">
+                    <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/7.svg"%}' alt="1.svg"/></div>
+                  <span class="CategoriesButton-text">{{item.name}} ({{ item.count }})</span></a>
+                  {%endfor%}
+                </div>
+              </div>
+               {% for tv in tvs %}
+              <div class="CategoriesButton-link"><a href="{{ tv.url }}">
+                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/1.svg"%}' alt="1.svg"/>
+                  </div><span class="CategoriesButton-text">{{tv.name}} ({{ tv.count }})</span></a>
+              </div>
+               {%endfor%}
+               {% for watch in smartwatches %}
+              <div class="CategoriesButton-link"><a href="{{ watch.url }}">
+                  <div class="CategoriesButton-icon"><img src='{% static "assets/img/icons/departments/8.svg"%}' alt="1.svg"/>
+                  </div><span class="CategoriesButton-text">{{watch.name}} ({{ watch.count }})</span></a>
+              </div>
+               {%endfor%}
+             </div>
             </div>
         </div>
         <div class="Header-searchLink"><img src='{% static "assets/img/icons/search.svg"%}' alt="search.svg"/>
